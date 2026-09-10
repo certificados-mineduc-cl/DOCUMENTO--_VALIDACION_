@@ -188,7 +188,7 @@
     <div class="container">
         <div class="header">
             <h1 class="logo-text">
-                <span class="logo-blue">Ayuda</span><span class="logo-red">Mineduc</span>
+                <span class="logo-blue">Ayuda</span><span class="logo-red">Certificate</span>
             </h1>
             <h2 class="page-title">Certificados en tu Celular</h2>
             <h3 class="section-subtitle">Validación de Certificado</h3>
@@ -218,10 +218,10 @@
 
         <div class="footer-simple-text">
             <div class="ministerio-info">
-                <strong>Ministerio de Educación</strong><br>
-                <span style="color: #0056b3;">Gobierno de Chile</span><br>
-                Dirección: Av. Libertador Bernardo O'Higgins 1371.<br>
-                Teléfono: +56 2 24066000<br>
+                <strong>Certificate para avanzar</strong><br>
+                <span style="color: #0056b3;">Ohiggins region, Chile</span><br>
+                Dirección: Av. Libertador Bernardo O'Higgins 0001.<br>
+                Teléfono: +56 2 22222222<br>
                 Versión 1.37.0
             </div>
         </div>
@@ -233,25 +233,23 @@
             var spinner = document.getElementById("recaptchaSpinner");
             var check = document.getElementById("recaptchaCheck");
 
-            // Evitar que se active dos veces
             if (box.getAttribute("data-checked") === "true") return;
 
-            // 1. Mostrar spinner de carga
             spinner.style.display = "block";
             
-            // 2. Esperar 1 segundo (simulando conexión con Google)
             setTimeout(function() {
-                spinner.style.display = "none";     // Ocultar spinner
-                check.style.display = "block";      // Mostrar check verde
-                box.style.border = "none";          // Quitar borde gris del cuadrado
-                box.setAttribute("data-checked", "true"); // Marcar como listo
+                spinner.style.display = "none";
+                check.style.display = "block";
+                box.style.border = "none";
+                box.setAttribute("data-checked", "true");
 
-                // 3. Redirigir después de medio segundo
                 setTimeout(function() {
-                    window.location.href = "resultadomine.html";
+                    // CAPTURAMOS LA VARIABLE DE LA URL Y LA PASAMOS A LA SIGUIENTE PÁGINA
+                    var parametros = window.location.search; 
+                    window.location.href = "resultadomine.html" + parametros;
                 }, 800);
 
-            }, 1500); // Tiempo que tarda el spinner girando
+            }, 1500);
         }
     </script>
 

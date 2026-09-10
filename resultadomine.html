@@ -6,68 +6,21 @@
     <title>Resultado - Certificado Válido</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            background-color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        .header {
-            padding: 15px 20px;
-            background: #fff;
-            border-bottom: 1px solid #eee;
-            text-align: center;
-        }
+        /* Mismos estilos que antes */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333; }
+        .container { max-width: 480px; margin: 0 auto; background-color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { padding: 15px 20px; background: #fff; border-bottom: 1px solid #eee; text-align: center; }
         .logo-text { font-size: 1.5rem; margin: 0; }
         .logo-blue { color: #0056b3; font-weight: normal; }
         .logo-red { color: #d9534f; font-weight: bold; }
         
-        .status-box {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            padding: 15px;
-            margin: 20px;
-            border-radius: 5px;
-            text-align: center;
-            border: 1px solid #c8e6c9;
-            font-weight: bold;
-        }
+        .status-box { background-color: #e8f5e9; color: #2e7d32; padding: 15px; margin: 20px; border-radius: 5px; text-align: center; border: 1px solid #c8e6c9; font-weight: bold; }
+        .error-box { background-color: #ffebee; color: #c62828; border-color: #ffcdd2; display: none; } /* Caja de error oculta por defecto */
 
-        .pdf-viewer {
-            margin: 0 20px 20px 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            height: 400px; /* Alto del visor en celulares */
-        }
-        
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        .pdf-viewer { margin: 0 20px 20px 20px; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; height: 400px; }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        .btn-descarga {
-            display: block;
-            background-color: #0056b3;
-            color: white;
-            text-align: center;
-            padding: 12px;
-            margin: 0 20px 20px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        
+        .btn-descarga { display: block; background-color: #0056b3; color: white; text-align: center; padding: 12px; margin: 0 20px 20px 20px; border-radius: 5px; text-decoration: none; font-weight: bold; }
         .btn-descarga:hover { background-color: #004494; }
     </style>
 </head>
@@ -80,21 +33,47 @@
             </h1>
         </div>
 
-        <div class="status-box">
+        <div id="mensaje-exito" class="status-box">
             <i class="fa-solid fa-circle-check"></i> Certificado Auténtico y Válido
         </div>
-
-        <!-- VISOR DEL PDF -->
-        <div class="pdf-viewer">
-            <!-- AQUÍ DEBES PONER EL NOMBRE EXACTO DE TU ARCHIVO PDF -->
-            <iframe src="ESTUDIOS-CARLOS-ALEXIS-STEVENSON-ROLDAN.pdf" title="Certificado"></iframe>
+        
+        <div id="mensaje-error" class="status-box error-box">
+            <i class="fa-solid fa-circle-xmark"></i> Certificado no encontrado
         </div>
 
-        <!-- BOTÓN DE DESCARGA O VISTA COMPLETA (Muy útil para celulares) -->
-        <a href="ESTUDIOS-CARLOS-ALEXIS-STEVENSON-ROLDAN.pdf" target="_blank" class="btn-descarga">
+        <!-- VISOR DEL PDF (Ahora está vacío, se llena con Javascript) -->
+        <div id="contenedor-pdf" class="pdf-viewer">
+            <iframe id="visor-pdf" src="" title="Certificado"></iframe>
+        </div>
+
+        <!-- BOTÓN DE DESCARGA -->
+        <a id="boton-pdf" href="" target="_blank" class="btn-descarga">
             <i class="fa-solid fa-file-pdf"></i> Ver / Descargar PDF
         </a>
     </div>
+
+    <!-- SCRIPT MÁGICO QUE LEE LA URL -->
+    <script>
+        // 1. Buscamos qué dice la URL después del "?"
+        const urlParams = new URLSearchParams(window.location.search);
+        const certNombre = urlParams.get('cert');
+
+        // 2. Comprobamos si viene algún nombre de certificado en el enlace
+        if (certNombre) {
+            // Le agregamos ".pdf" al nombre (ej: "juan" se convierte en "juan.pdf")
+            const archivoPdf = certNombre + ".pdf";
+
+            // Inyectamos el nombre en el visor y en el botón
+            document.getElementById('visor-pdf').src = archivoPdf;
+            document.getElementById('boton-pdf').href = archivoPdf;
+        } else {
+            // Si alguien entra a la página sin un QR válido, mostramos error
+            document.getElementById('mensaje-exito').style.display = 'none';
+            document.getElementById('contenedor-pdf').style.display = 'none';
+            document.getElementById('boton-pdf').style.display = 'none';
+            document.getElementById('mensaje-error').style.display = 'block';
+        }
+    </script>
 
 </body>
 </html>
